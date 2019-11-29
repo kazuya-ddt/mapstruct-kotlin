@@ -103,5 +103,12 @@ object BuilderGenerator {
 
     fun VariableElement.name(): String = this.simpleName.toString()
 
-    fun VariableElement.type(): TypeName = ClassName.get(this.asType())
+    fun VariableElement.type(): TypeName {
+        val className = ClassName.get(this.asType())
+        return if (className.isPrimitive) {
+            className.box()
+        } else {
+            className
+        }
+    }
 }
